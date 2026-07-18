@@ -1,0 +1,44 @@
+paths:
+  pool_csv: ../examples/synthetic/pool.csv
+  history_csv: ../examples/synthetic/history.csv
+  runs_dir: ../runs
+
+workflow:
+  rounds: 2
+  poll_interval_seconds: 30
+  wait_timeout_seconds: 604800
+
+active_learning:
+  candidates_per_profile: 20
+  select_top_k: 5
+  llm_trials: 3
+  beta: 1.0
+  mmr_lambda: 0.6
+  similarity_threshold: 0.2
+  max_target_retries: 5
+  s1_low: 1.3
+  s1_high: 3.2
+  est_max: 0.3
+
+dft:
+  nprocs: 32
+  maxcore_mb: 2000
+  ground_method: PBE0 D3 def2-SVP OPT FREQ RIJCOSX
+  excited_method: wB97X-D3 ZORA RIJCOSX TightSCF ZORA-def2-TZVP
+  solvent: CPCM(Water)
+  nroots: 6
+  est_min: 0.01
+  est_max: 0.30
+  random_seed: 42
+
+hpc:
+  remote_root: ~/lalf-runs
+  partition: ""
+  account: ""
+  walltime: "24:00:00"
+  orca_bin: orca
+  scratch_root: ""
+  max_retries: 3
+
+llm:
+  temperature: 0.2

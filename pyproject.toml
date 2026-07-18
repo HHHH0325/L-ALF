@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lalf"
+version = "0.1.0"
+description = "Sanitized, resumable LLM-guided active learning and ORCA/Slurm workflow"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = [
+  "numpy>=1.24",
+  "pandas>=2.0",
+  "PyYAML>=6.0",
+  "openai>=1.0",
+  "paramiko>=3.0",
+  "rdkit>=2023.9",
+]
+
+[project.optional-dependencies]
+dev = ["build>=1.2", "pytest>=8,<9", "ruff>=0.6"]
+
+[project.scripts]
+lalf = "lalf.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+lalf = ["dft/templates/*"]
+
+[tool.setuptools.data-files]
+"share/lalf/configs" = ["configs/public.example.yaml"]
+"share/lalf/examples/synthetic" = [
+  "examples/synthetic/pool.csv",
+  "examples/synthetic/history.csv",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "."]
+addopts = "-p no:cacheprovider"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
