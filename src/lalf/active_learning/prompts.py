@@ -8,11 +8,21 @@ from collections.abc import Sequence
 from lalf.models import TargetProfile
 
 
+EST_DEFINITION = (
+    "Delta_n = |E(S1) - E(Tn)|. With the default parser settings, select the "
+    "available SOC channel maximizing SOCME/Delta_n within 0.01 <= Delta_n <= 0.30 eV. "
+    "If none exist, use the nearest triplet with SOC and floor its gap at 0.01 eV. "
+    "DeltaEST denotes this processed gap, also used in SOCME/DeltaEST. Default final "
+    "screening requires DeltaEST < 0.30 eV with no additional lower bound. "
+)
+
+
 def build_design_prompt(profile: TargetProfile) -> str:
     """Ask the LLM for one directional search target around verified anchors."""
     anchors = json.dumps(profile.anchors, ensure_ascii=False)
     return (
         "You are designing a chemically valid molecular search target. "
+        f"{EST_DEFINITION}"
         f"Direction: {profile.name}. Objective: {profile.focus} "
         f"Verified anchor context: {anchors}. "
         "Return exactly one SMILES string and no explanation."
@@ -38,6 +48,7 @@ def build_prediction_prompt(
     return (
         "Estimate S1_eV, DeltaEST_eV, oscillator_strength, SOCME_over_DeltaEST, "
         "and an overall score from 0 to 10 for the candidate. "
+        f"{EST_DEFINITION}"
         f"Candidate SMILES: {smiles}. Context: {json.dumps(context, ensure_ascii=False)}. "
         "Return exactly five comma-separated numbers in that order."
     )

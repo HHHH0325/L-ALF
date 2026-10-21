@@ -1,9 +1,9 @@
 """Extract the physically consistent DFT labels used by the active learner.
 
-For every triplet below S1, the parser computes the positive singlet-triplet
-gap.  Within the configured window it selects the state pair maximizing
-SOCME/DeltaEST; if the window is empty, it falls back to the nearest positive
-gap with available SOC data.
+For every triplet, Delta_n = abs(E(S1) - E(Tn)). Within the inclusive configured
+window (default 0.01 to 0.30 eV), select the available SOC channel maximizing
+SOCME/Delta_n. Otherwise use the nearest channel with SOC, flooring its gap at
+est_min (default 0.01 eV). Filtering uses the processed EST label separately.
 """
 
 from __future__ import annotations
@@ -153,14 +153,14 @@ def parse_td_output(text: str, est_min: float = 0.01, est_max: float = 0.30) -> 
             status="missing_oscillator_strength", normal_termination=True, s1=s1
         )
     soc = _soc_magnitudes(text)
-    positive_gaps = {
-        state: float(s1 - energy)
+    gaps = {
+        state: abs(float(s1 - energy))
         for state, energy in triplets.items()
-        if float(s1 - energy) > 0.0
+        if math.isfinite(energy) and math.isfinite(soc.get(state, math.nan))
     }
-    if not positive_gaps:
+    if not gaps:
         return ParsedDFTResult(
-            status="no_positive_triplet_gap",
+            status="missing_soc",
             normal_termination=True,
             s1=s1,
             oscillator_strength=oscillator_strength,
@@ -168,23 +168,15 @@ def parse_td_output(text: str, est_min: float = 0.01, est_max: float = 0.30) -> 
 
     window_states = {
         state: gap
-        for state, gap in positive_gaps.items()
-        if float(est_min) <= gap <= float(est_max) and state in soc
+        for state, gap in gaps.items()
+        if float(est_min) <= gap <= float(est_max)
     }
     if window_states:
         best_state = max(window_states, key=lambda state: soc[state] / window_states[state])
     else:
-        states_with_soc = {state: gap for state, gap in positive_gaps.items() if state in soc}
-        if not states_with_soc:
-            return ParsedDFTResult(
-                status="missing_soc",
-                normal_termination=True,
-                s1=s1,
-                oscillator_strength=oscillator_strength,
-            )
-        best_state = min(states_with_soc, key=states_with_soc.get)
+        best_state = min(gaps, key=gaps.get)
 
-    est = positive_gaps[best_state]
+    est = max(float(est_min), gaps[best_state])
     socme = soc[best_state]
     return ParsedDFTResult(
         status="complete",

@@ -81,7 +81,7 @@ def scan_repository(root: str | Path) -> list[Finding]:
             if path.is_dir() and len(relative.parts) == 1:
                 findings.append(Finding("forbidden_directory", relative))
             continue
-        if any(part in _SKIP_DIRS for part in relative.parts):
+        if any(part in _SKIP_DIRS or part.startswith(".pytest-") for part in relative.parts):
             continue
         if not path.is_file() or path.is_symlink():
             continue

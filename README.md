@@ -5,6 +5,68 @@ active sampling, and quantum-chemical validation in a closed optimization loop.
 Its purpose is to allocate a limited DFT budget to candidates most likely to
 expand a feasible multi-objective Pareto frontier.
 
+## Installation and quick start
+
+Use Python 3.10 or newer. Clone the repository and install the package in a
+virtual environment:
+
+```sh
+git clone https://github.com/HHHH0325/L-ALF.git
+cd L-ALF
+python -m venv .venv
+# Windows PowerShell: .venv/Scripts/Activate.ps1
+# Linux/macOS: source .venv/bin/activate
+python -m pip install -e ".[dev]"
+lalf check-config --config configs/public.example.yaml
+python -m pytest -q
+python scripts/check_public_release.py .
+```
+
+The configuration check and tests work offline. Tests use synthetic molecules,
+manually authored parser fixtures, and fake LLM/HPC backends; they make no LLM
+requests and submit no ORCA jobs. They check software behavior rather than
+photophysical accuracy or reproduction of the research results.
+
+For a production run, provide a molecular pool CSV with `molecule_id,smiles`
+columns, and set its path in a copy of `configs/public.example.yaml`. History
+uses `molecule_id,smiles,s1,est,f,socme,ratio,t_state`; an absent history file or
+a file containing only this header starts with zero task labels. Configuration
+paths are resolved relative to the YAML file. The small public pool is a
+synthetic software example, not the research candidate library.
+
+Set connection details through environment variables in your local session:
+
+| Variable | Purpose |
+|---|---|
+| `LALF_LLM_API_KEY` | API credential for the LLM backend |
+| `LALF_LLM_BASE_URL` | Optional compatible API endpoint |
+| `LALF_LLM_MODEL` | Model identifier supported by your provider |
+| `LALF_SSH_HOST`, `LALF_SSH_USER` | Compute-cluster connection |
+| `LALF_SSH_PORT` | Optional SSH port; defaults to 22 |
+| `LALF_SSH_KEY_FILE` | Optional SSH private-key file path |
+| `LALF_SSH_PASSWORD` | Optional password authentication |
+
+The compute cluster must provide ORCA and Slurm commands (`sbatch`, `squeue`,
+and `sacct`). Install ORCA separately according to its license, configure its
+executable and Slurm settings in YAML, and verify the SSH host key in your
+known-hosts file before connecting. Then run or inspect the workflow with:
+
+```sh
+lalf run --config configs/my.local.yaml
+lalf status --config configs/my.local.yaml
+```
+
+`run` calls the configured LLM service and submits quantum-chemical jobs. The
+persisted state allows the same command to resume an interrupted run. The
+example configuration uses six excited-state roots; users supply the candidate
+library, credentials, model, and computing resources for their own experiments.
+
+The optimization targets are computational screening descriptors. Their values
+alone do not establish an experimental ISC rate, ROS yield, or photosensitizer
+performance. This repository publishes the packaged algorithm and software
+examples; it does not include the labeled research dataset, original run
+trajectories, or the manuscript experimental comparisons.
+
 ## Algorithm overview
 
 ```text
@@ -110,17 +172,23 @@ Default calculations use:
 
 ## 6. Dominant ISC channel
 
-For each low-energy triplet state `Tj`, L-ALF computes the positive gap:
+For each low-energy triplet state `Tn`, L-ALF computes the absolute raw gap:
 
 ```text
-DeltaEST(j) = E(S1) - E(Tj)
-R(j) = SOCME(j) / DeltaEST(j)
+Delta_n = |E(S1) - E(Tn)|
+R(n) = SOCME(n) / Delta_n
 ```
 
-Within the configured energy window, the state pair with the largest `R(j)` is
-selected as the dominant ISC channel. If the window contains no valid state,
-the parser falls back to the nearest positive triplet gap with available SOC
-data.
+Within the inclusive configured window (default `0.01 <= Delta_n <= 0.30 eV`),
+the channel with available SOC and the largest `R(n)` is selected. If none exists,
+the parser uses the nearest triplet channel with available SOC and floors its
+gap at `est_min` (default `0.01 eV`). `DeltaEST` is the resulting processed label,
+and `SOCME/DeltaEST` uses that same denominator. No valid SOC channel means a
+missing label. Triplets above S1 and zero raw gaps are handled by the same rule.
+
+Final screening uses `DeltaEST < 0.30 eV` by default, with no additional lower
+bound. A channel at `0.30 eV` may be parsed but fails screening. A label floored
+to `0.01 eV` does not imply a raw gap of at least `0.01 eV`.
 
 Parsed labels include `S1`, `DeltaEST`, `f`, `SOCME`, `SOCME/DeltaEST`, and the
 dominant triplet-state index.
