@@ -60,6 +60,8 @@ lalf status --config configs/my.local.yaml
 persisted state allows the same command to resume an interrupted run. The
 example configuration uses six excited-state roots; users supply the candidate
 library, credentials, model, and computing resources for their own experiments.
+Both public example configurations specify 20 rounds with 20 selected molecules
+per round, for a planned total of 400 selections per run.
 
 The optimization targets are computational screening descriptors. Their values
 alone do not establish an experimental ISC rate, ROS yield, or photosensitizer

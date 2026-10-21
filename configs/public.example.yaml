@@ -4,13 +4,13 @@ paths:
   runs_dir: ../runs
 
 workflow:
-  rounds: 2
+  rounds: 20
   poll_interval_seconds: 30
   wait_timeout_seconds: 604800
 
 active_learning:
   candidates_per_profile: 20
-  select_top_k: 5
+  select_top_k: 20
   llm_trials: 3
   beta: 1.0
   mmr_lambda: 0.6
