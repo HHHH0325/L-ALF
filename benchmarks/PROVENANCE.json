@@ -1,0 +1,115 @@
+{
+  "release_scope": "Only code, protocol, documentation, references and third-party license; no research results.",
+  "source_records": [
+    {
+      "source": "cej_experiments/core.py",
+      "sha256": "d58f7ead3b1a17f4b0e93cc29e1cd191a73f9626db03797e29156ced6f3fa5d4",
+      "public_modules": [
+        "core.py",
+        "data.py"
+      ]
+    },
+    {
+      "source": "cej_experiments/run.py",
+      "sha256": "29db479b8fc7188da8a62f15b76432ee35cac49c7f560424d5b8eb0c2d154fd7",
+      "public_modules": [
+        "search.py",
+        "runner.py"
+      ]
+    },
+    {
+      "source": "cej_experiments/graph_model.py",
+      "sha256": "27c38eaa3f6f1ef0ecc97d0e2e66075b4a98d7a38553069bd04a56eec13f760d",
+      "public_modules": [
+        "graph_model.py"
+      ]
+    },
+    {
+      "source": "cej_experiments/literature_methods.py",
+      "sha256": "232e118a3e34d43a749e9792351c7e8ed557bc47a3bcb78d77a7ff91f7659675",
+      "public_modules": [
+        "literature.py"
+      ]
+    },
+    {
+      "source": "cej_experiments/guidance_ablation.py",
+      "sha256": "20244ba810a3a12fe7e2ea990b478ced496bb5919a31336d11d46b48e2671b73",
+      "public_modules": [
+        "guidance_ablation.py"
+      ]
+    },
+    {
+      "source": "cej_experiments/api_client.py",
+      "sha256": "7dc47c32f935730b545d897728f42d33fd5c19b86a979d284ca1581729b0db92",
+      "public_modules": [
+        "client.py"
+      ]
+    },
+    {
+      "source": "cej_experiments/protocol.json",
+      "sha256": "8529cdd462a01577c0a448363be9fefd0374391bff19f3ca3fa0e49ca9a7f03e",
+      "public_modules": [
+        "paper_protocol.json"
+      ]
+    },
+    {
+      "source": "cej_experiments/additional_protocol.json",
+      "sha256": "e595911736991037891cafc6b4eb6eb4301345a62d1a699416853d802aff8328",
+      "public_modules": [
+        "registry.py",
+        "METHODS.md"
+      ]
+    },
+    {
+      "source": "test/prompt.py",
+      "sha256": "5d018cac3ecde983091a046ea106eaff9deb5b1a8b3d790ec14a9359956d75be",
+      "public_modules": [
+        "prompts.py"
+      ]
+    },
+    {
+      "source": "test/example.py",
+      "sha256": "c748ea1717bed88007a9573e2dd4c556a1a04a29052914a92c21cf35ba8bb9aa",
+      "public_modules": [
+        "references.py"
+      ]
+    },
+    {
+      "source": "mobo_baselines/run_discrete_mobo_top500.py",
+      "sha256": "f7e37c4f84610dd46f5babf2eb844f20c52cc16847dd2eca3381b8d0dcdb64d5",
+      "public_modules": [
+        "mobo.py",
+        "mobo_adapter.py"
+      ]
+    },
+    {
+      "source": "mobo_baselines/run_discrete_mobo_qpots.py",
+      "sha256": "ae5faa0ab3bee6b986fa8961089088fef8d5a74db739e3be219be1b7a1ee9f28",
+      "public_modules": [
+        "mobo.py",
+        "mobo_adapter.py"
+      ]
+    }
+  ],
+  "adaptations": [
+    "Public input/output uses the main lalf molecule_id,smiles,s1,est,f,ratio schema; optional socme/t_state preserved.",
+    "Detailed paper prompts/history selection retained; main Thresholds and main parser EST definition shared.",
+    "First-front paper ranking retained, distinct from production successive Pareto layers and LLM score ranking.",
+    "Dataset paths, feature caches, API endpoint/cache and historical result/analysis dependencies removed.",
+    "PCA rebuilt from structures only, seed 0, dimension min(128,n_structures,2048); external historical cache not distributed.",
+    "Standalone runner has explicit query boundary, unique-budget guards and overwrite refusal; historical resume/cache protocol not reconstructed.",
+    "Random method uses one whole-budget draw sliced into batches, matching retained figure protocol rather than the later round-wise random variant.",
+    "GCN validation split retains a training row for small libraries; manuscript 20-label start unchanged.",
+    "MOBO retains model/prescreen/qPOTS kernels; qLogNParEGO adapter has explicit pending points and propagates acquisition failures.",
+    "MOBO seeds isolated per round for portable invocation; historical global random-state sequence and exact trajectories not claimed.",
+    "Graph-GA v0.0 callable operator code is preserved; upstream __main__ demonstrations removed. Published and upstream SHA256 hashes recorded separately; original MIT license retained.",
+    "Full-dataset label evaluation isolated as optional post-hoc metrics; no plots or experiment outputs distributed.",
+    "Excluded full_llm/llm_beta0 and nonretained qLogNEHVI do not appear in the method registry."
+  ],
+  "graph_ga": {
+    "source": "https://github.com/jensengroup/GB_GA/tree/v0.0",
+    "file_hashes": "src/lalf/benchmarks/vendor/graph_ga/SOURCES.json",
+    "license": "MIT, Copyright (c) 2018 Jensen Group"
+  },
+  "reproducibility_limit": "Portable source refactoring, not byte-for-byte replay of historical L-ALF or baseline trajectories; labeled library and exact historical backend/cache are not distributed."
+}

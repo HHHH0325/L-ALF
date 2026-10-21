@@ -65,7 +65,26 @@ The optimization targets are computational screening descriptors. Their values
 alone do not establish an experimental ISC rate, ROS yield, or photosensitizer
 performance. This repository publishes the packaged algorithm and software
 examples; it does not include the labeled research dataset, original run
-trajectories, or the manuscript experimental comparisons.
+trajectories, or manuscript experimental results.
+
+## Manuscript comparison algorithms
+
+The [benchmark code and guide](benchmarks/README.md) provide the 21 retained
+module controls and whole-search baselines used for R1-7 and R1-9, including
+configurations, [method descriptions](benchmarks/METHODS.md), and
+[literature references](benchmarks/references.bib). They use the same public
+molecular/label schema and scientific thresholds as L-ALF. Each method retains
+its actual ranking and acquisition rules; finite-library adaptations and
+differences from historical L-ALF are documented explicitly.
+
+```sh
+python -m pip install -e ".[dev,benchmarks]"
+lalf-benchmark --list-methods
+lalf-benchmark --config configs/benchmarks.example.yaml --check-config
+```
+
+Benchmark execution requires a user-supplied labeled library. Published files
+contain code, configuration and citations; research results are not included.
 
 ## Algorithm overview
 

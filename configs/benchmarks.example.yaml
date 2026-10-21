@@ -1,0 +1,31 @@
+# Supply an external labeled CSV; no research data are shipped.
+paths:
+  labels_csv: ../../user-data/labels.csv
+  runs_dir: ../runs/benchmarks
+
+comparison:
+  rounds: 20
+  seeds: [0, 1, 2, 3, 4]
+  device: cpu
+  methods:
+    - llm_gen_rf
+    - llm_gen_xgb
+    - llm_gen_gp
+    - llm_gen_graph
+    - similarity_gen_llm
+    - rule_gen_llm
+    - evolution_gen_llm
+    - llm_no_context
+    - llm_minimal_guidance
+    - random
+    - similarity_search
+    - evolutionary_search
+    - rf_search
+    - xgb_search
+    - gp_search
+    - graph_search
+    - graph_gp_search
+    - graphga_search
+    - molleo_search
+    - qpots
+    - qlognparego

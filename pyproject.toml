@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lalf"
-version = "0.1.0"
+version = "0.2.0"
 description = "Sanitized, resumable LLM-guided active learning and ORCA/Slurm workflow"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -20,18 +20,29 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["build>=1.2", "pytest>=8,<9", "ruff>=0.6"]
+benchmarks = [
+  "scipy>=1.15,<2",
+  "scikit-learn>=1.6,<1.7",
+  "xgboost>=3.1,<3.2",
+  "torch>=2.9,<2.10",
+  "botorch>=0.17,<0.18",
+  "gpytorch>=1.15,<1.16",
+]
 
 [project.scripts]
 lalf = "lalf.cli:main"
+lalf-benchmark = "lalf.benchmarks.runner:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
 lalf = ["dft/templates/*"]
+"lalf.benchmarks" = ["paper_protocol.json", "vendor/graph_ga/*.py", "vendor/graph_ga/LICENSE", "vendor/graph_ga/SOURCES.json"]
 
 [tool.setuptools.data-files]
-"share/lalf/configs" = ["configs/public.example.yaml"]
+"share/lalf/configs" = ["configs/public.example.yaml", "configs/benchmarks.example.yaml"]
+"share/lalf/benchmarks" = ["benchmarks/README.md", "benchmarks/METHODS.md", "benchmarks/references.bib", "benchmarks/PROVENANCE.json"]
 "share/lalf/examples/synthetic" = [
   "examples/synthetic/pool.csv",
   "examples/synthetic/history.csv",

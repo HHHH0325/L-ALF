@@ -2,3 +2,5 @@ recursive-include configs *.yaml
 recursive-include examples *.csv
 recursive-include scripts *.py
 recursive-include tests *.py *.out *.md
+recursive-include benchmarks *.md *.bib *.json
+recursive-include src/lalf/benchmarks *.json LICENSE

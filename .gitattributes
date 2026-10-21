@@ -1,0 +1,3 @@
+# Preserve published third-party operator bytes and their recorded checksums.
+# Upstream callable code is preserved; standalone demonstrations are omitted.
+src/lalf/benchmarks/vendor/graph_ga/* -text -whitespace

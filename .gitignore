@@ -14,6 +14,10 @@ dist/
 *.egg-info/
 data/
 runs/
+results/
+raw_csv/
+api_cache/
+feature_cache/
 *.h5
 *.hdf5
 *.gbw

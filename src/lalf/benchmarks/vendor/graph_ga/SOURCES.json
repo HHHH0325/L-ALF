@@ -1,0 +1,25 @@
+{
+  "paper": "jensen2019graphga",
+  "upstream_tag": "v0.0",
+  "repository": "https://github.com/jensengroup/GB_GA/tree/v0.0",
+  "retrieved_utc_date": "2026-10-13",
+  "license": "MIT",
+  "files": {
+    "crossover.py": {
+      "sha256": "0c2a0c62d90edaaddf27cd1beca65e7561bb7f91af0567ccfe08ebe2f43bf451",
+      "retrieval_url": "https://cdn.jsdelivr.net/gh/jensengroup/GB_GA@v0.0/crossover.py",
+      "upstream_sha256": "b75ba27ae97e48e5a173aaae791ae2b4c06638c3ba6a9e2fd34da618d7234294",
+      "modifications": "Removed upstream __main__ demonstration block only; callable operator code unchanged."
+    },
+    "mutate.py": {
+      "sha256": "574fdab877024afbc991a68d4247f0744fe958c04cb15a400a7465acbb819605",
+      "retrieval_url": "https://cdn.jsdelivr.net/gh/jensengroup/GB_GA@v0.0/mutate.py",
+      "upstream_sha256": "458e5391814835f030782e34d97a3f1d4e0b41f22a046ea33ff0d4a1872fcdb0",
+      "modifications": "Removed upstream __main__ demonstration block only; callable operator code unchanged."
+    },
+    "LICENSE": {
+      "sha256": "ff8ab00e63f3b93ec19ae46422eade4ff4e48055d7f664ccc23d9285ac6d95da",
+      "retrieval_url": "https://cdn.jsdelivr.net/gh/jensengroup/GB_GA@v0.0/LICENSE"
+    }
+  }
+}

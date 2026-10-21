@@ -23,9 +23,10 @@ _SKIP_DIRS = {
     "build",
     "dist",
 }
-_FORBIDDEN_DIRS = {"data", "runs"}
+_FORBIDDEN_DIRS = {"data", "runs", "results", "raw_csv", "api_cache", "feature_cache"}
 _FORBIDDEN_SUFFIXES = {".gbw", ".h5", ".hdf5", ".zip"}
 _TEXT_SUFFIXES = {
+    ".bib",
     ".csv",
     ".env",
     ".ini",

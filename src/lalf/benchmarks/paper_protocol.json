@@ -1,0 +1,46 @@
+{
+  "rounds": 20,
+  "batch_size": 20,
+  "candidate_size": 50,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "constraints": {
+    "S1_low": 1.3,
+    "S1_high": 3.2,
+    "EST_max": 0.3
+  },
+  "strict": {
+    "f": 0.3,
+    "ratio": 70
+  },
+  "relaxed": {
+    "f": 0.1,
+    "ratio": 20
+  },
+  "mmr_lambda": [
+    0.5,
+    0.8
+  ],
+  "ucb_beta": 0.6,
+  "api_trials": 3,
+  "api_temperatures": [
+    0.15,
+    0.2,
+    0.25
+  ],
+  "api_evaluation_batch": 50,
+  "version": "paper-comparisons-code-1",
+  "pca_dim": 128,
+  "feature_seed": 0,
+  "graph_ga_attempts": 60,
+  "graph_ga_mutation_probability": 0.067,
+  "gp_maxiter": 20,
+  "mc_samples": 8,
+  "prescreen_topk": 500,
+  "prescreen_beta": 0.5
+}
