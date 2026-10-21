@@ -16,23 +16,23 @@ cd L-ALF
 python -m venv .venv
 # Windows PowerShell: .venv/Scripts/Activate.ps1
 # Linux/macOS: source .venv/bin/activate
-python -m pip install -e ".[dev]"
+python -m pip install -e .
 lalf check-config --config configs/public.example.yaml
-python -m pytest -q
 python scripts/check_public_release.py .
 ```
 
-The configuration check and tests work offline. Tests use synthetic molecules,
-manually authored parser fixtures, and fake LLM/HPC backends; they make no LLM
-requests and submit no ORCA jobs. They check software behavior rather than
-photophysical accuracy or reproduction of the research results.
+Configuration validation works offline without a molecular dataset and makes
+no LLM requests or ORCA submissions. The public release contains algorithm
+code, configuration templates, documentation and references. Validation tests,
+fixtures, demonstration datasets and test outputs are kept locally and are
+excluded from the current source tree and distribution packages.
 
 For a production run, provide a molecular pool CSV with `molecule_id,smiles`
 columns, and set its path in a copy of `configs/public.example.yaml`. History
 uses `molecule_id,smiles,s1,est,f,socme,ratio,t_state`; an absent history file or
 a file containing only this header starts with zero task labels. Configuration
-paths are resolved relative to the YAML file. The small public pool is a
-synthetic software example, not the research candidate library.
+paths are resolved relative to the YAML file. The default paths are placeholders
+for user-supplied files; no molecular pool or history CSV is bundled.
 
 Set connection details through environment variables in your local session:
 
@@ -63,8 +63,8 @@ library, credentials, model, and computing resources for their own experiments.
 
 The optimization targets are computational screening descriptors. Their values
 alone do not establish an experimental ISC rate, ROS yield, or photosensitizer
-performance. This repository publishes the packaged algorithm and software
-examples; it does not include the labeled research dataset, original run
+performance. This repository publishes the packaged algorithm and configuration
+templates; it does not include the labeled research dataset, original run
 trajectories, or manuscript experimental results.
 
 ## Manuscript comparison algorithms
@@ -78,7 +78,7 @@ its actual ranking and acquisition rules; finite-library adaptations and
 differences from historical L-ALF are documented explicitly.
 
 ```sh
-python -m pip install -e ".[dev,benchmarks]"
+python -m pip install -e ".[benchmarks]"
 lalf-benchmark --list-methods
 lalf-benchmark --config configs/benchmarks.example.yaml --check-config
 ```

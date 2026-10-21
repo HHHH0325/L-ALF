@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lalf"
-version = "0.2.0"
+version = "0.2.2"
 description = "Sanitized, resumable LLM-guided active learning and ORCA/Slurm workflow"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -19,7 +19,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["build>=1.2", "pytest>=8,<9", "ruff>=0.6"]
+dev = ["build>=1.2", "ruff>=0.6"]
 benchmarks = [
   "scipy>=1.15,<2",
   "scikit-learn>=1.6,<1.7",
@@ -35,6 +35,7 @@ lalf-benchmark = "lalf.benchmarks.runner:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+exclude = ["tests", "tests.*", "test", "test.*", "*.tests", "*.tests.*"]
 
 [tool.setuptools.package-data]
 lalf = ["dft/templates/*"]
@@ -43,16 +44,6 @@ lalf = ["dft/templates/*"]
 [tool.setuptools.data-files]
 "share/lalf/configs" = ["configs/public.example.yaml", "configs/benchmarks.example.yaml"]
 "share/lalf/benchmarks" = ["benchmarks/README.md", "benchmarks/METHODS.md", "benchmarks/references.bib", "benchmarks/PROVENANCE.json"]
-"share/lalf/examples/synthetic" = [
-  "examples/synthetic/pool.csv",
-  "examples/synthetic/history.csv",
-]
-
-[tool.pytest.ini_options]
-pythonpath = ["src", "."]
-addopts = "-p no:cacheprovider"
-testpaths = ["tests"]
-
 [tool.ruff]
 line-length = 100
 target-version = "py310"

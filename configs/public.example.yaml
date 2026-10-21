@@ -1,6 +1,6 @@
 paths:
-  pool_csv: ../examples/synthetic/pool.csv
-  history_csv: ../examples/synthetic/history.csv
+  pool_csv: ../data/pool.csv
+  history_csv: ../data/history.csv
   runs_dir: ../runs
 
 workflow:

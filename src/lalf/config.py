@@ -178,9 +178,9 @@ def load_config(path: str | Path) -> AppConfig:
     base = config_path.parent
     paths_raw = _mapping(raw.get("paths"), "paths")
     paths = PathsConfig(
-        pool_csv=_resolve(base, paths_raw.get("pool_csv"), "examples/synthetic/pool.csv"),
+        pool_csv=_resolve(base, paths_raw.get("pool_csv"), "data/pool.csv"),
         history_csv=_resolve(
-            base, paths_raw.get("history_csv"), "examples/synthetic/history.csv"
+            base, paths_raw.get("history_csv"), "data/history.csv"
         ),
         runs_dir=_resolve(base, paths_raw.get("runs_dir"), "runs"),
     )

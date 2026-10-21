@@ -23,8 +23,14 @@ _SKIP_DIRS = {
     "build",
     "dist",
 }
-_FORBIDDEN_DIRS = {"data", "runs", "results", "raw_csv", "api_cache", "feature_cache"}
-_FORBIDDEN_SUFFIXES = {".gbw", ".h5", ".hdf5", ".zip"}
+_FORBIDDEN_DIRS = {
+    "data", "runs", "results", "raw_csv", "api_cache", "feature_cache",
+    "test", "tests", "fixtures", "examples", "test-results", "coverage",
+}
+_FORBIDDEN_SUFFIXES = {
+    ".gbw", ".h5", ".hdf5", ".zip", ".csv", ".tsv", ".out", ".xyz", ".log",
+}
+_TEST_NAME_PATTERN = re.compile(r"^(?:test_.*\.py|.*_test\.py|conftest\.py)$", re.I)
 _TEXT_SUFFIXES = {
     ".bib",
     ".csv",
@@ -51,15 +57,6 @@ _PERSONAL_PATH_PATTERN = re.compile(
 _EMAIL_PATTERN = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
 
 
-def _is_allowed_orca_fixture(relative: Path) -> bool:
-    parts = tuple(part.lower() for part in relative.parts)
-    return relative.suffix.lower() == ".out" and parts[:3] == (
-        "tests",
-        "fixtures",
-        "orca",
-    )
-
-
 def _known_private_terms(root: Path) -> list[str]:
     denylist = root / ".private-denylist"
     if not denylist.exists():
@@ -78,18 +75,20 @@ def scan_repository(root: str | Path) -> list[Finding]:
 
     for path in sorted(repository.rglob("*")):
         relative = path.relative_to(repository)
-        if relative.parts and relative.parts[0].lower() in _FORBIDDEN_DIRS:
-            if path.is_dir() and len(relative.parts) == 1:
-                findings.append(Finding("forbidden_directory", relative))
-            continue
         if any(part in _SKIP_DIRS or part.startswith(".pytest-") for part in relative.parts):
+            continue
+        forbidden_parts = [
+            i for i, part in enumerate(relative.parts)
+            if part.lower() in _FORBIDDEN_DIRS
+        ]
+        if forbidden_parts:
+            if path.is_dir() and forbidden_parts[0] == len(relative.parts) - 1:
+                findings.append(Finding("forbidden_directory", relative))
             continue
         if not path.is_file() or path.is_symlink():
             continue
         suffix = path.suffix.lower()
-        if suffix in _FORBIDDEN_SUFFIXES or (
-            suffix in {".out", ".xyz"} and not _is_allowed_orca_fixture(relative)
-        ):
+        if suffix in _FORBIDDEN_SUFFIXES or _TEST_NAME_PATTERN.fullmatch(path.name):
             findings.append(Finding("forbidden_file", relative))
             continue
         if path.stat().st_size > 2_000_000:

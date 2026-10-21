@@ -5,21 +5,21 @@ comparisons (R1-7) and twelve whole-search baselines (R1-9). Implementations liv
 in `src/lalf/benchmarks/`. The production L-ALF algorithm remains available as
 `lalf run`; this addition supplies the comparison code, configuration and
 references. Research datasets, run tables, figures, API responses and experimental
-results are not distributed.
+results are not distributed. Local validation tests, fixtures, demonstration
+datasets and test outputs are excluded from the current public tree and packages.
 
 ## Install and inspect without running experiments
 
 From the repository root, in a Python virtual environment:
 
 ```sh
-python -m pip install -e ".[dev,benchmarks]"
+python -m pip install -e ".[benchmarks]"
 lalf-benchmark --list-methods
 lalf-benchmark --config configs/benchmarks.example.yaml --check-config
-python -m pytest -q
 ```
 
-The checks and tests use artificial structures, invented labels, and fake LLM
-responses. They make no network calls or ORCA submissions. Optional scientific
+Listing methods and validating configuration make no network calls or ORCA
+submissions and do not require a labeled library. Optional scientific
 dependencies are isolated in the `benchmarks` extra; installing the production
 package alone does not require PyTorch, BoTorch or XGBoost. Tested comparison
 stack: SciPy 1.15.2, scikit-learn 1.6.1, XGBoost 3.1.1, PyTorch 2.9.1,
