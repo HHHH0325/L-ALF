@@ -23,14 +23,10 @@ class Client:
         # Transport errors propagate; never substitute a different algorithm.
         return self.backend.complete(prompt, temperature, max_tokens)
 
-    def targets(self, profiles, scope, no_context=False, minimal_guidance=False):
+    def targets(self, profiles, scope, no_context=False):
         def generate(item):
             i, profile = item
-            if minimal_guidance:
-                from .guidance_ablation import generation_prompt
-
-                prompt = generation_prompt(profile)
-            elif no_context:
+            if no_context:
                 prompt = (
                     EST_DEFINITION
                     + "Propose one valid molecular SMILES for these numerical targets: S1 between 1.3 and 3.2 eV, EST < 0.3 eV; maximize f and SOCME/EST. Focus: "
@@ -59,7 +55,7 @@ class Client:
         with ThreadPoolExecutor(max_workers=3) as pool:
             return list(pool.map(generate, enumerate(profiles)))
 
-    def evaluate(self, lib, history, ids, scope, no_context=False, minimal_guidance=False):
+    def evaluate(self, lib, history, ids, scope, no_context=False):
         manager = SuccessfulExamplesManager()
         prompts = []
         for id in ids:
@@ -71,14 +67,9 @@ class Client:
                 if not no_context
                 else {"global_frontier": [], "local_positive": [], "local_negative": []}
             )
-            if minimal_guidance:
-                from .guidance_ablation import evaluation_prompt
-
-                prompt = evaluation_prompt(smiles, refs)
-            else:
-                prompt = comprehensive_scoring_prompt(
-                    smiles, refs["global_frontier"], refs["local_positive"], refs["local_negative"]
-                )
+            prompt = comprehensive_scoring_prompt(
+                smiles, refs["global_frontier"], refs["local_positive"], refs["local_negative"]
+            )
             prompts.append({"id": int(id), "prompt": prompt})
         chunks = [
             prompts[i : i + P["api_evaluation_batch"]]

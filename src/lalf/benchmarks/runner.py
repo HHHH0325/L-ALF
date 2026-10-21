@@ -71,7 +71,6 @@ def choose_batch(method, lib, history, remaining, seed, round_index, client=None
             profiles,
             scope + "/generator",
             no_context=method == "llm_no_context",
-            minimal_guidance=method == "llm_minimal_guidance",
         )
     ids = retrieve(lib, targets, remaining, round_index)
     evaluator = method.removeprefix("llm_gen_") if method.startswith("llm_gen_") else "llm"
@@ -82,7 +81,6 @@ def choose_batch(method, lib, history, remaining, seed, round_index, client=None
             ids,
             scope,
             no_context=method == "llm_no_context",
-            minimal_guidance=method == "llm_minimal_guidance",
         )
     else:
         draws, _ = fit_predict(evaluator, lib, history, ids, roundseed)

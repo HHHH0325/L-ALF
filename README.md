@@ -71,7 +71,7 @@ trajectories, or manuscript experimental results.
 
 ## Manuscript comparison algorithms
 
-The [benchmark code and guide](benchmarks/README.md) provide the 21 retained
+The [benchmark code and guide](benchmarks/README.md) provide the 20 retained
 module controls and whole-search baselines used for R1-7 and R1-9, including
 configurations, [method descriptions](benchmarks/METHODS.md), and
 [literature references](benchmarks/references.bib). They use the same public

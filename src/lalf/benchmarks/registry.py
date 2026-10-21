@@ -9,7 +9,6 @@ METHODS = {
     "rule_gen_llm": ("R1-7", "Valence-checked local mutation generator", []),
     "evolution_gen_llm": ("R1-7", "Local mutation plus observed-fitness generator", []),
     "llm_no_context": ("R1-7", "No evaluation references and simplified generation prompt", []),
-    "llm_minimal_guidance": ("R1-7", "Remove explicit chemistry guidance, retain references", []),
     "random": ("R1-9", "One uniform sample without replacement, then batch slicing", []),
     "similarity_search": ("R1-9", "Observed-anchor Tanimoto search", ["rogers2010ecfp"]),
     "evolutionary_search": ("R1-9", "Finite-library Morgan-bit genetic search", []),

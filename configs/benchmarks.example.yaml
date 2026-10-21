@@ -16,7 +16,6 @@ comparison:
     - rule_gen_llm
     - evolution_gen_llm
     - llm_no_context
-    - llm_minimal_guidance
     - random
     - similarity_search
     - evolutionary_search

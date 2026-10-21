@@ -5,7 +5,7 @@ The production L-ALF reference is the main package, and its five historical
 paper trajectories are not supplied or reconstructed here. `full_llm` and
 `llm_beta0` are excluded because they were removed from the retained comparison.
 
-## R1-7: nine module comparisons
+## R1-7: eight module comparisons
 
 | Method ID | Changed module | Retained modules | Source |
 |---|---|---|---|
@@ -17,7 +17,6 @@ paper trajectories are not supplied or reconstructed here. `full_llm` and
 | `rule_gen_llm` | Target generation → valence-checked terminal substitutions or aromatic C/N swaps | Same | Local rule control |
 | `evolution_gen_llm` | Target generation → six mutations per anchor, top three observed-fitness interpolation proposals | Same | Local mutation/selection control; no graph crossover |
 | `llm_no_context` | Clear global/local evaluator references and simplify generation prompt | LLMs, retrieval and ranking | Local ablation; affects more than one prompt component |
-| `llm_minimal_guidance` | Remove expert roles and explicit chemical edit heuristics | Numerical targets, reference-selection rules, trade-off focus, retrieval and ranking | Local ablation; `guidance_ablation.py` |
 
 Observed anchors maximize f, ratio, and common score. Mutational proxy fitness
 is a similarity-to-the-fourth-power weighted interpolation of queried-history

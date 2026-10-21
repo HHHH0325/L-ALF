@@ -1,6 +1,6 @@
 # Manuscript comparison code
 
-This directory documents the 21 retained comparison methods: nine module
+This directory documents the 20 retained comparison methods: eight module
 comparisons (R1-7) and twelve whole-search baselines (R1-9). Implementations live
 in `src/lalf/benchmarks/`. The production L-ALF algorithm remains available as
 `lalf run`; this addition supplies the comparison code, configuration and
