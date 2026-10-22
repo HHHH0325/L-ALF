@@ -4,8 +4,9 @@ This directory documents the 20 retained comparison methods: eight module
 comparisons (R1-7) and twelve whole-search baselines (R1-9). Implementations live
 in `src/lalf/benchmarks/`. The production L-ALF algorithm remains available as
 `lalf run`; this addition supplies the comparison code, configuration and
-references. Research datasets, run tables, figures, API responses and experimental
-results are not distributed. Local validation tests, fixtures, demonstration
+references. The [labeled research library](../data/README.md) is published under
+`data/`. Historical run tables, figures, API responses and separate final
+candidate tables are not distributed. Local validation tests, fixtures, demonstration
 datasets and test outputs are excluded from the current public tree and packages.
 
 ## Install and inspect without running experiments
@@ -27,10 +28,19 @@ BoTorch 0.17.2 and GPyTorch 1.15.2. Public dependency ranges retain these minor
 versions. CPU execution is supported; the GCN retains its historical automatic
 CUDA selection, while the configuration `device` controls MOBO.
 
-## Run with your own labeled library
+## Use the published dataset or your own labeled library
 
-Supply a CSV outside the repository using the same public field names as the
-main algorithm:
+The published [mol_label_total.csv](../data/mol_label_total.csv) retains the
+original research headers and values. Follow the short
+[column-conversion instructions](../data/README.md#use-with-the-comparison-runner)
+to write a local input CSV at `../user-data/labels.csv` (relative to the
+repository root), matching the example configuration. The original table has
+12,181 rows and 12,180 distinct SMILES. The loader keeps the first of the two
+identical-SMILES entries, whose labels differ. Original negative S1/f values
+are also documented in the data guide and are not silently replaced.
+
+For another labeled library, supply a CSV outside the repository using the
+same public field names as the main algorithm:
 
 ```text
 molecule_id,smiles,s1,est,f,ratio

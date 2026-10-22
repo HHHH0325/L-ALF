@@ -1,5 +1,6 @@
 {
-  "release_scope": "Only code, protocol, documentation, references and third-party license; no research results.",
+  "release_scope": "Algorithm code, protocol, documentation, references, third-party license and the original labeled library at data/mol_label_total.csv; historical acquisition logs, final candidate tables and other run outputs are not included.",
+  "dataset_manifest": "data/manifest.json",
   "source_records": [
     {
       "source": "cej_experiments/core.py",
@@ -88,7 +89,7 @@
     "Public input/output uses the main lalf molecule_id,smiles,s1,est,f,ratio schema; optional socme/t_state preserved.",
     "Detailed paper prompts/history selection retained; main Thresholds and main parser EST definition shared.",
     "First-front paper ranking retained, distinct from production successive Pareto layers and LLM score ranking.",
-    "Dataset paths, feature caches, API endpoint/cache and historical result/analysis dependencies removed.",
+    "Private machine-specific paths, feature caches, API endpoint/cache and historical result/analysis dependencies removed; the labeled library is published separately under data/ with its original bytes.",
     "PCA rebuilt from structures only, seed 0, dimension min(128,n_structures,2048); external historical cache not distributed.",
     "Standalone runner has explicit query boundary, unique-budget guards and overwrite refusal; historical resume/cache protocol not reconstructed.",
     "Random method uses one whole-budget draw sliced into batches, matching retained figure protocol rather than the later round-wise random variant.",
@@ -104,5 +105,5 @@
     "file_hashes": "src/lalf/benchmarks/vendor/graph_ga/SOURCES.json",
     "license": "MIT, Copyright (c) 2018 Jensen Group"
   },
-  "reproducibility_limit": "Portable source refactoring, not byte-for-byte replay of historical L-ALF or baseline trajectories; labeled library and exact historical backend/cache are not distributed."
+  "reproducibility_limit": "Portable source refactoring, not byte-for-byte replay of historical L-ALF or baseline trajectories; the labeled library is distributed, but exact historical trajectories, backend/cache and raw ORCA outputs are not."
 }

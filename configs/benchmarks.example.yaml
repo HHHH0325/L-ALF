@@ -1,4 +1,5 @@
-# Supply an external labeled CSV; no research data are shipped.
+# Convert data/mol_label_total.csv as described in data/README.md,
+# or supply another labeled library with the public column names.
 paths:
   labels_csv: ../../user-data/labels.csv
   runs_dir: ../runs/benchmarks

@@ -68,6 +68,11 @@ def _known_private_terms(root: Path) -> list[str]:
     ]
 
 
+_PUBLIC_DATA_FILES = {
+    "data/README.md", "data/manifest.json", "data/mol_label_total.csv",
+}
+
+
 def scan_repository(root: str | Path) -> list[Finding]:
     repository = Path(root).resolve()
     findings: list[Finding] = []
@@ -75,11 +80,18 @@ def scan_repository(root: str | Path) -> list[Finding]:
 
     for path in sorted(repository.rglob("*")):
         relative = path.relative_to(repository)
+        name = relative.as_posix()
+        public_data = name in _PUBLIC_DATA_FILES
         if any(part in _SKIP_DIRS or part.startswith(".pytest-") for part in relative.parts):
+            continue
+        if name == "data" and path.is_dir():
+            continue
+        if relative.parts[0].lower() == "data" and not public_data:
+            findings.append(Finding("unapproved_data", relative))
             continue
         forbidden_parts = [
             i for i, part in enumerate(relative.parts)
-            if part.lower() in _FORBIDDEN_DIRS
+            if part.lower() in _FORBIDDEN_DIRS and not public_data
         ]
         if forbidden_parts:
             if path.is_dir() and forbidden_parts[0] == len(relative.parts) - 1:
@@ -88,7 +100,7 @@ def scan_repository(root: str | Path) -> list[Finding]:
         if not path.is_file() or path.is_symlink():
             continue
         suffix = path.suffix.lower()
-        if suffix in _FORBIDDEN_SUFFIXES or _TEST_NAME_PATTERN.fullmatch(path.name):
+        if (suffix in _FORBIDDEN_SUFFIXES and not public_data) or _TEST_NAME_PATTERN.fullmatch(path.name):
             findings.append(Finding("forbidden_file", relative))
             continue
         if path.stat().st_size > 2_000_000:

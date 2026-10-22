@@ -24,7 +24,7 @@ junit*.xml
 build/
 dist/
 *.egg-info/
-data/
+data/*
 runs/
 results/
 raw_csv/
@@ -39,3 +39,8 @@ feature_cache/
 *.log
 *.xyz
 slurm-*.out
+
+# Only the approved research dataset and its documentation are public.
+!data/README.md
+!data/manifest.json
+!data/mol_label_total.csv

@@ -1,0 +1,113 @@
+{
+  "release_date": "2026-10-22",
+  "file": "mol_label_total.csv",
+  "bytes": 1909558,
+  "sha256": "03fbb79b3dc8ffbfff56cfd86326a983eb8cada2a8529ada3aca81967de36d55",
+  "encoding": "UTF-8",
+  "rows_excluding_header": 12181,
+  "columns": [
+    "CID",
+    "SMILES",
+    "S1",
+    "EST",
+    "T_state",
+    "SOCME/EST",
+    "f"
+  ],
+  "unique_cids": 12181,
+  "unique_smiles_strings": 12180,
+  "source": "Existing mol_label_total.csv research label library used by the manuscript finite-library comparison protocol.",
+  "release_transformations": [],
+  "units": {
+    "CID": "PubChem identifier",
+    "SMILES": "SMILES",
+    "S1": "eV",
+    "EST": "eV",
+    "T_state": "triplet channel index",
+    "SOCME/EST": "cm^-1 eV^-1",
+    "f": "dimensionless"
+  },
+  "runner_column_mapping": {
+    "CID": "molecule_id",
+    "SMILES": "smiles",
+    "S1": "s1",
+    "EST": "est",
+    "T_state": "t_state",
+    "SOCME/EST": "ratio",
+    "f": "f"
+  },
+  "column_statistics": {
+    "CID": {
+      "missing": 0
+    },
+    "SMILES": {
+      "missing": 0
+    },
+    "S1": {
+      "missing": 0,
+      "minimum": -1.265,
+      "maximum": 12.736,
+      "nonfinite": 0,
+      "negative": 167
+    },
+    "EST": {
+      "missing": 0,
+      "minimum": 0.01,
+      "maximum": 2.506,
+      "nonfinite": 0,
+      "negative": 0
+    },
+    "T_state": {
+      "missing": 0,
+      "minimum": 1.0,
+      "maximum": 6.0,
+      "nonfinite": 0,
+      "negative": 0
+    },
+    "SOCME/EST": {
+      "missing": 0,
+      "minimum": 0.0,
+      "maximum": 181643.970648629,
+      "nonfinite": 0,
+      "negative": 0
+    },
+    "f": {
+      "missing": 0,
+      "minimum": -0.000860249,
+      "maximum": 5.373309755,
+      "nonfinite": 0,
+      "negative": 162
+    }
+  },
+  "duplicate_smiles": {
+    "extra_rows": 1,
+    "cids_in_file_order": [
+      "92026874",
+      "71333398"
+    ],
+    "property_labels_identical": false,
+    "runner_rule": "Keep first occurrence of an identical SMILES string in input order.",
+    "runner_library_size": 12180
+  },
+  "structure_audit": {
+    "rdkit_version": "2026.03.1",
+    "invalid_smiles": 0,
+    "interpretation": "Parse success does not establish chemical validity or convergence."
+  },
+  "quality_notes": [
+    "167 original records have negative S1; 162 have negative f. All negative-f records also have negative S1.",
+    "Original negative labels and the differing duplicate-SMILES records are preserved; no labels were recalculated or corrected.",
+    "The comparison loader removes one exact-string duplicate, but does not remove negative labels from training automatically.",
+    "Per-molecule calculation inputs, termination status and state-resolved energies are not contained in this aggregate table."
+  ],
+  "not_included": [
+    "Historical acquisition logs",
+    "Original five L-ALF trajectories",
+    "Separate final screened-candidate tables",
+    "Raw ORCA inputs/outputs",
+    "Complete PubChem retrieval universe",
+    "API responses/caches",
+    "Figures",
+    "Local validation/test files"
+  ]
+}
